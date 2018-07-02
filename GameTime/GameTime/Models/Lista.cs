@@ -18,8 +18,8 @@ namespace GameTime.Models
         public int JogoFK { get; set; }
         public virtual Jogo Jogo { get; set; }
 
-        //[ForeignKey("Estado")]
-        //public int EstadoJogador { get; set; }
-        //public virtual EstadoJogo Estado { get; set; }
+        [ForeignKey("EstadoJogador")]
+        public int EstadoJogadorFK { get; set; }
+        public virtual EstadoJogo EstadoJogador { get; set; }
     }
 }

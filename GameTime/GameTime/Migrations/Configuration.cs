@@ -67,18 +67,18 @@
                 new EstadoJogador {Id=2, Nome="Por Jogar"},
                 new EstadoJogador {Id=3, Nome="A Jogar"},
             };
-            estadoJogador.ForEach(ee => context.EstadoJogador.AddOrUpdate(e => e.Nome, ee));
+            estadoJogador.ForEach(zz => context.EstadoJogador.AddOrUpdate(z => z.Nome, zz));
             context.SaveChanges();
 
             //*********************************************************************
             // adiciona JOGO
             var jogo = new List<Jogo> {
-                new Jogo {Id=1, Nome="Skyrim",Descricao="best game eva", Capa="Skyrim_capa.png", Editora="", GeneroJogo=1},
-                new Jogo {Id=2, Nome="Witcher",Descricao="best game eva", Capa="", Editora="", GeneroJogo=1},
-                new Jogo {Id=3, Nome="LOL",Descricao="best game eva", Capa="", Editora="", GeneroJogo=1},
-                new Jogo {Id=4, Nome="Minecraft",Descricao="best game eva", Capa="", Editora="", GeneroJogo=1},
-                new Jogo {Id=5, Nome="Solitário",Descricao="best game eva", Capa="", Editora="", GeneroJogo=1},
-                new Jogo {Id=6, Nome="Pimbal",Descricao="best game eva", Capa="", Editora="", GeneroJogo=1}
+                new Jogo {Id=1, Nome="Skyrim",Descricao="best game eva", Capa="Skyrim_capa.png", Editora="Bethesda", EstadoJogoFK=1, GeneroJogo=1},
+                new Jogo {Id=2, Nome="Witcher",Descricao="best game eva", Capa="", Editora="CD Projekt",EstadoJogoFK=1, GeneroJogo=1},
+                new Jogo {Id=3, Nome="LOL",Descricao="best game eva", Capa="", Editora="Riot", EstadoJogoFK=1, GeneroJogo=1},
+                new Jogo {Id=4, Nome="Minecraft",Descricao="best game eva", Capa="", Editora="Mojang", EstadoJogoFK=1,GeneroJogo=1},
+                new Jogo {Id=5, Nome="Solitário",Descricao="best game eva", Capa="", Editora="", EstadoJogoFK=1, GeneroJogo=1},
+                new Jogo {Id=6, Nome="Pinbal",Descricao="best game eva", Capa="", Editora="", EstadoJogoFK=1, GeneroJogo=1}
             };
             jogo.ForEach(jj => context.Jogo.AddOrUpdate(j => j.Nome, jj));
             context.SaveChanges();
@@ -86,16 +86,16 @@
             //*********************************************************************
             // adiciona LISTA
             var lista = new List<Lista> {
-                new Lista { UtilizadorFK=1, JogoFK=1},
-                new Lista { UtilizadorFK=1, JogoFK=2},
-                new Lista { UtilizadorFK=1, JogoFK=3},
-                new Lista { UtilizadorFK=2, JogoFK=1},
-                new Lista { UtilizadorFK=2, JogoFK=2},
-                new Lista { UtilizadorFK=2, JogoFK=3},
-                new Lista { UtilizadorFK=3, JogoFK=1},
-                new Lista { UtilizadorFK=3, JogoFK=2}
+                new Lista { UtilizadorFK=1, JogoFK=1, EstadoJogadorFK=1},
+                new Lista { UtilizadorFK=1, JogoFK=2, EstadoJogadorFK=1},
+                new Lista { UtilizadorFK=1, JogoFK=3, EstadoJogadorFK=1},
+                new Lista { UtilizadorFK=2, JogoFK=1, EstadoJogadorFK=1},
+                new Lista { UtilizadorFK=2, JogoFK=2, EstadoJogadorFK=1},
+                new Lista { UtilizadorFK=2, JogoFK=3, EstadoJogadorFK=1},
+                new Lista { UtilizadorFK=3, JogoFK=1, EstadoJogadorFK=1},
+                new Lista { UtilizadorFK=3, JogoFK=2, EstadoJogadorFK=1}
             };
-            //lista.ForEach(ll => context.Lista.AddOrUpdate(l => l.EstadoJogador, ll));
+            lista.ForEach(ll => context.Lista.AddOrUpdate(l => l.EstadoJogador, ll));
             context.SaveChanges();
 
         }

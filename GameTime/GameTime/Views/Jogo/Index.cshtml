@@ -18,7 +18,8 @@
             @Html.DisplayNameFor(model => model.Nome)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Genero.Nome)
+            @*@Html.DisplayNameFor(model => model.Genero.Nome)*@
+            @Html.DisplayName("Género")
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Editora)
@@ -31,19 +32,20 @@
         <td>
             @*@Html.DisplayFor(modelItem => item.Capa)*@
             <a href="~/Imagens/@item.Capa" target="_blank">
-                <img src="~/Imagens/@item.Capa" width="50" height="37" />
+                <img src="~/Imagens/@item.Capa" width="80" height="100" />
             </a>
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Genero.Nome)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Nome)
         </td>
         <td>
+            @Html.DisplayFor(modelItem => item.Genero.Nome)
+        </td>
+        <td>
             @Html.DisplayFor(modelItem => item.Editora)
         </td>
         <td>
+            
             @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
             @Html.ActionLink("Details", "Details", new { id=item.Id }) |
             @Html.ActionLink("Delete", "Delete", new { id=item.Id })

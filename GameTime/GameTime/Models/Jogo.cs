@@ -22,9 +22,9 @@ namespace GameTime.Models
         public string Editora { get; set; }
         //public DateTime DataLancamento { get; set; }
 
-        //[Column(Order = 0),ForeignKey("Estado")]
-        //public int EstadoJogo { get; set; }
-        //public virtual EstadoJogo Estado { get; set; }
+        [Column(Order = 0),ForeignKey("EstadoJogo")]
+        public int EstadoJogoFK { get; set; }
+        public virtual EstadoJogo EstadoJogo { get; set; }
 
         [Column(Order = 1),ForeignKey("Genero")]
         public int GeneroJogo { get; set; }

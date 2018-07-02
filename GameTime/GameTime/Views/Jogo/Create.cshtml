@@ -34,7 +34,9 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Capa, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Capa, new { htmlAttributes = new { @class = "form-control" } })
+                @* adição do objeto para fazer o file upload de uma fotografia *@
+                @*@Html.EditorFor(model => model.Capa, new { htmlAttributes = new { @class = "form-control" } })*@
+                <input type="file" name="uploadCapa" style="color:blue;" accept=".jpg" />
                 @Html.ValidationMessageFor(model => model.Capa, "", new { @class = "text-danger" })
             </div>
         </div>
