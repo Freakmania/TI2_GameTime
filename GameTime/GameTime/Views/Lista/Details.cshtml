@@ -1,0 +1,42 @@
+﻿@model GameTime.Models.Lista
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Lista</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.EstadoJogador.Nome)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EstadoJogador.Nome)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Jogo.Nome)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Jogo.Nome)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Utilizador.NomeUtilizador)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Utilizador.NomeUtilizador)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
