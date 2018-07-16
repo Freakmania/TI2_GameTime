@@ -8,6 +8,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using GameTime.Models;
+using System.IO;
 
 namespace GameTime.Controllers
 {
@@ -18,7 +19,7 @@ namespace GameTime.Controllers
         // GET: Jogo
         public async Task<ActionResult> Index()
         {
-            var jogo = db.Jogo.Include(j => j.Genero);
+            var jogo = db.Jogo.Include(j => j.EstadoJogo).Include(j => j.Genero);
             return View(await jogo.ToListAsync());
         }
 
@@ -40,6 +41,7 @@ namespace GameTime.Controllers
         // GET: Jogo/Create
         public ActionResult Create()
         {
+            ViewBag.EstadoJogoFK = new SelectList(db.EstadoJogo, "Id", "Nome");
             ViewBag.GeneroJogo = new SelectList(db.Genero, "Id", "Nome");
             return View();
         }
@@ -49,15 +51,21 @@ namespace GameTime.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,Nome,Descricao,Capa,Editora,GeneroJogo")] Jogo jogo)
+        public async Task<ActionResult> Create([Bind(Include = "Id,Nome,Descricao,Capa,Editora,EstadoJogoFK,GeneroJogo")] Jogo jogo, HttpPostedFileBase uploadImagem)
         {
             if (ModelState.IsValid)
             {
+                if (uploadImagem != null)
+                {
+                    uploadImagem.SaveAs(HttpContext.Server.MapPath("~/Imagens/") + uploadImagem.FileName);
+                    jogo.Capa = uploadImagem.FileName;
+                }
                 db.Jogo.Add(jogo);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
 
+            ViewBag.EstadoJogoFK = new SelectList(db.EstadoJogo, "Id", "Nome", jogo.EstadoJogoFK);
             ViewBag.GeneroJogo = new SelectList(db.Genero, "Id", "Nome", jogo.GeneroJogo);
             return View(jogo);
         }
@@ -74,6 +82,7 @@ namespace GameTime.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.EstadoJogoFK = new SelectList(db.EstadoJogo, "Id", "Nome", jogo.EstadoJogoFK);
             ViewBag.GeneroJogo = new SelectList(db.Genero, "Id", "Nome", jogo.GeneroJogo);
             return View(jogo);
         }
@@ -83,14 +92,20 @@ namespace GameTime.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,Nome,Descricao,Capa,Editora,GeneroJogo")] Jogo jogo)
+        public async Task<ActionResult> Edit([Bind(Include = "Id,Nome,Descricao,Capa,Editora,EstadoJogoFK,GeneroJogo")] Jogo jogo, HttpPostedFileBase uploadImagem)
         {
             if (ModelState.IsValid)
             {
+                if (uploadImagem != null)
+                {
+                    uploadImagem.SaveAs(HttpContext.Server.MapPath("~/Images/") + uploadImagem.FileName);
+                    jogo.Capa = uploadImagem.FileName;
+                }
                 db.Entry(jogo).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
+            ViewBag.EstadoJogoFK = new SelectList(db.EstadoJogo, "Id", "Nome", jogo.EstadoJogoFK);
             ViewBag.GeneroJogo = new SelectList(db.Genero, "Id", "Nome", jogo.GeneroJogo);
             return View(jogo);
         }

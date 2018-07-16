@@ -12,7 +12,17 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Genero.Nome)
+            @*@Html.DisplayNameFor(model => model.EstadoJogo.Nome)*@
+            @Html.DisplayName("Status")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EstadoJogo.Nome)
+        </dd>
+
+        <dt>
+            @*@Html.DisplayNameFor(model => model.Genero.Nome)*@
+            @Html.DisplayName("Type")
         </dt>
 
         <dd>
@@ -20,7 +30,8 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Nome)
+            @*@Html.DisplayNameFor(model => model.Nome)*@
+            @Html.DisplayName("Name")
         </dt>
 
         <dd>
@@ -28,7 +39,8 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Descricao)
+            @*@Html.DisplayNameFor(model => model.Descricao)*@
+            @Html.DisplayName("Description")
         </dt>
 
         <dd>
@@ -36,7 +48,8 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Capa)
+            @*@Html.DisplayNameFor(model => model.Capa)*@
+            @Html.DisplayName("Cover")
         </dt>
 
         <dd>
@@ -44,7 +57,8 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Editora)
+            @*@Html.DisplayNameFor(model => model.Editora)*@
+            @Html.DisplayName("Publisher")
         </dt>
 
         <dd>

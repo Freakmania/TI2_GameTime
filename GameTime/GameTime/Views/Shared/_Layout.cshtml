@@ -22,11 +22,15 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("About", "About", "Home")</li>
-
                     @*mostra só se o utilizador estiver autenticado*@
-                    @if (Request.IsAuthenticated) { 
-                    <li>@Html.ActionLink("A Minha Lista", "Index", "Lista")</li>
-                    <li>@Html.ActionLink("Jogos", "Index", "Jogo")</li>
+                    @if (Request.IsAuthenticated)
+                    {
+                        <li>@Html.ActionLink("My List", "Index", "Lista")</li>
+                        <li>@Html.ActionLink("Games", "Index", "Jogo")</li>
+                        if (User.IsInRole("Admin"))
+                        {
+                            <li>@Html.ActionLink("Roles", "Index", "Role")</li>
+                        }
                     }
                 </ul>
                 @Html.Partial("_LoginPartial")

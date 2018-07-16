@@ -38,7 +38,7 @@ namespace GameTime
          if(!roleManager.RoleExists("Utilizador")) {
             // não existe a 'role'
             // então, criar essa role
-            var role = new IdentityRole();
+            var role = new ApplicationRole();
             role.Name = "Utilizador";
             roleManager.Create(role);
          }
@@ -47,7 +47,7 @@ namespace GameTime
          if(!roleManager.RoleExists("Admin")) {
             // não existe a 'role'
             // então, criar essa role
-            var role = new IdentityRole();
+            var role = new ApplicationRole();
             role.Name = "Admin";
             roleManager.Create(role);
          }
@@ -56,7 +56,6 @@ namespace GameTime
          var user = new ApplicationUser();
          user.UserName = "tania@mail.pt";
          user.Email = "tania@mail.pt";
-         //  user.Nome = "Luís Freitas";
          string userPWD = "123_Asd";
          var chkUser = userManager.Create(user, userPWD);
 
@@ -69,7 +68,6 @@ namespace GameTime
          user = new ApplicationUser();
          user.UserName = "andre@mail.pt";
          user.Email = "andre@mail.pt";
-         //  user.Nome = "Luís Freitas";
          userPWD = "123_Asd";
          chkUser = userManager.Create(user, userPWD);
 

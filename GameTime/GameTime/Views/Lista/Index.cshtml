@@ -1,45 +1,63 @@
 ﻿@model IEnumerable<GameTime.Models.Lista>
+@using Microsoft.AspNet.Identity
 
 @{
     ViewBag.Title = "Index";
 }
 
 <h2>Index</h2>
-
+@if (User.IsInRole("Admin")) {
 <p>
     @Html.ActionLink("Create New", "Create")
-</p>
+</p> 
+}
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.EstadoJogador.Nome)
+            @*@Html.DisplayNameFor(model => model.EstadoJogador.Nome)*@
+            @Html.DisplayName("Status")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Jogo.Nome)
+            @*@Html.DisplayNameFor(model => model.Jogo.Nome)*@
+            @Html.DisplayName("Name")
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Utilizador.NomeUtilizador)
-        </th>
+        @if (User.IsInRole("Admin"))
+        {
+            <th>
+                @*@Html.DisplayNameFor(model => model.Utilizador.NomeUtilizador)*@
+                @Html.DisplayName("Username")
+            </th>
+        }
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.EstadoJogador.Nome)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Jogo.Nome)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Utilizador.NomeUtilizador)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            @if (item.Utilizador.NomeUtilizador == User.Identity.GetUserName() || User.IsInRole("Admin"))
+            {
+                <td>
+                    @Html.DisplayFor(modelItem => item.EstadoJogador.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Jogo.Nome)
+                </td>
+                if (User.IsInRole("Admin"))
+                {
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Utilizador.NomeUtilizador)
+                    </td>
+                }
+                    <td>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            @Html.ActionLink("Edit", "Edit", new { UtilizadorFK = item.UtilizadorFK, JogoFK = item.JogoFK }) 
+                        }
+                        @Html.ActionLink("Details", "Details", "Jogo", new { id = item.JogoFK }, null) |
+                        @Html.ActionLink("Delete", "Delete", new { UtilizadorFK = item.UtilizadorFK, JogoFK = item.JogoFK })
+                    </td>
+            }
+        </tr>
+    }
 
 </table>

@@ -8,6 +8,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using GameTime.Models;
+using Microsoft.AspNet.Identity;
 
 namespace GameTime.Controllers
 {
@@ -25,22 +26,31 @@ namespace GameTime.Controllers
         // GET: Lista/Details/5
         public async Task<ActionResult> Details(int? id)
         {
+            //Lista lista = db.Lista.Find(UtilizadorFK, JogoFK);
+            //if (lista == null)
+            //{
+            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            //}
+            //ViewBag.UtilizadorFK = new SelectList(db.Utilizador, "UtilizadorFK", "Utilizador", lista.UtilizadorFK);
+            //ViewBag.UtilizadorFK = new SelectList(db.Jogo, "JogoFK", "Jogo", lista.Jogo);
+            //return View(lista);
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Lista lista = await db.Lista.FindAsync(id);
-            if (lista == null)
+            Jogo jogo = await db.Jogo.FindAsync(id);
+            if (jogo == null)
             {
                 return HttpNotFound();
             }
-            return View(lista);
+            return View(jogo);
         }
 
         // GET: Lista/Create
         public ActionResult Create()
         {
-            ViewBag.EstadoJogadorFK = new SelectList(db.EstadoJogo, "Id", "Nome");
+            ViewBag.EstadoJogadorFK = new SelectList(db.EstadoJogador, "Id", "Nome");
             ViewBag.JogoFK = new SelectList(db.Jogo, "Id", "Nome");
             ViewBag.UtilizadorFK = new SelectList(db.Utilizador, "Id", "NomeUtilizador");
             return View();
@@ -56,31 +66,27 @@ namespace GameTime.Controllers
             if (ModelState.IsValid)
             {
                 db.Lista.Add(lista);
+                //ViewBag.UtilizadorFK = User.Identity.GetUserId();
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.EstadoJogadorFK = new SelectList(db.EstadoJogo, "Id", "Nome", lista.EstadoJogadorFK);
+            ViewBag.EstadoJogadorFK = new SelectList(db.EstadoJogador, "Id", "Nome", lista.EstadoJogadorFK);
             ViewBag.JogoFK = new SelectList(db.Jogo, "Id", "Nome", lista.JogoFK);
             ViewBag.UtilizadorFK = new SelectList(db.Utilizador, "Id", "NomeUtilizador", lista.UtilizadorFK);
             return View(lista);
         }
 
         // GET: Lista/Edit/5
-        public async Task<ActionResult> Edit(int? id)
+        public ActionResult Edit(int UtilizadorFK, int JogoFK)
         {
-            if (id == null)
+            Lista lista = db.Lista.Find(UtilizadorFK, JogoFK);
+            if (lista == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Lista lista = await db.Lista.FindAsync(id);
-            if (lista == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.EstadoJogadorFK = new SelectList(db.EstadoJogo, "Id", "Nome", lista.EstadoJogadorFK);
-            ViewBag.JogoFK = new SelectList(db.Jogo, "Id", "Nome", lista.JogoFK);
-            ViewBag.UtilizadorFK = new SelectList(db.Utilizador, "Id", "NomeUtilizador", lista.UtilizadorFK);
+            ViewBag.UtilizadorFK = new SelectList(db.Utilizador, "UtilizadorFK", "Utilizador", lista.UtilizadorFK);
+            ViewBag.UtilizadorFK = new SelectList(db.Jogo, "JogoFK", "Jogo", lista.Jogo);
             return View(lista);
         }
 
@@ -93,37 +99,54 @@ namespace GameTime.Controllers
         {
             if (ModelState.IsValid)
             {
+                int OUtilizadorFK = Convert.ToInt32(Request["UtilizadorFK"]);
+                int OJogoFK = Convert.ToInt32(Request["JogoFK"]);
+
+                var services = db.Lista.Where(a => a.UtilizadorFK == OUtilizadorFK).Where(a => a.JogoFK == OJogoFK);
+
+                foreach (var s in services)
+                {
+                    db.Lista.Remove(s);
+                }
+
+                db.Lista.Add(lista);
+                try
+                {
+                    db.SaveChanges();
+                }
+                catch
+                {
+                    return RedirectToAction("Index");
+                }
                 db.Entry(lista).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewBag.EstadoJogadorFK = new SelectList(db.EstadoJogo, "Id", "Nome", lista.EstadoJogadorFK);
+            ViewBag.EstadoJogadorFK = new SelectList(db.EstadoJogador, "Id", "Nome", lista.EstadoJogadorFK);
             ViewBag.JogoFK = new SelectList(db.Jogo, "Id", "Nome", lista.JogoFK);
             ViewBag.UtilizadorFK = new SelectList(db.Utilizador, "Id", "NomeUtilizador", lista.UtilizadorFK);
             return View(lista);
         }
 
         // GET: Lista/Delete/5
-        public async Task<ActionResult> Delete(int? id)
+        public ActionResult Delete(int UtilizadorFK, int JogoFK)
         {
-            if (id == null)
+            Lista lista = db.Lista.Find(UtilizadorFK, JogoFK);
+            if (lista == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Lista lista = await db.Lista.FindAsync(id);
-            if (lista == null)
-            {
-                return HttpNotFound();
-            }
+            ViewBag.UtilizadorFK = new SelectList(db.Utilizador, "UtilizadorFK", "Utilizador", lista.UtilizadorFK);
+            ViewBag.UtilizadorFK = new SelectList(db.Jogo, "JogoFK", "Jogo", lista.Jogo);
             return View(lista);
         }
 
         // POST: Lista/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteConfirmed(int id)
+        public async Task<ActionResult> DeleteConfirmed(int UtilizadorFK, int JogoFK)
         {
-            Lista lista = await db.Lista.FindAsync(id);
+            Lista lista = await db.Lista.FindAsync(UtilizadorFK, JogoFK);
             db.Lista.Remove(lista);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");

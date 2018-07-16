@@ -12,6 +12,7 @@ using Microsoft.AspNet.Identity.Owin;
 
 namespace GameTime.Controllers
 {
+    //[Authorize(Roles = "Administrador")]
     public class RoleController : Controller
     {
         private ApplicationRoleManager _roleManager;
