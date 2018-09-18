@@ -20,19 +20,19 @@
             // adiciona UTILIZADOR
             var utilizadores = new List<Utilizador>
             {
-                new Utilizador {Id=1, Nome="Asdrúbal Dinossauro", Password="123_Asd",
+                new Utilizador {Id=1, Nome="Asdrúbal Dinossauro",
                     Email ="asdrubal@sapo.pt", NomeUtilizador="asdrubal@sapo.pt",Foto="asdrubal.jpg"},
-                new Utilizador {Id=2, Nome="António Lopes", Password="123_Asd",
+                new Utilizador {Id=2, Nome="António Lopes",
                     Email ="antonio@sapo.pt", NomeUtilizador="antonio@sapo.pt",Foto="antonio.jpg"},
-                new Utilizador {Id=3, Nome="Bárbara Castro", Password="123_Asd",
+                new Utilizador {Id=3, Nome="Bárbara Castro",
                     Email ="barbara@sapo.pt", NomeUtilizador="barbara@sapo.pt",Foto="barbara.jpg"},
-                new Utilizador {Id=4, Nome="Alexandra Lima", Password="123_Asd",
+                new Utilizador {Id=4, Nome="Alexandra Lima",
                     Email ="alexandra@sapo.pt", NomeUtilizador="alexandra@sapo.pt",Foto="alexandra.jpg"},
-                new Utilizador {Id=5, Nome="João Canoso", Password="123_Asd",
+                new Utilizador {Id=5, Nome="João Canoso",
                     Email ="joao@sapo.pt", NomeUtilizador="joao@sapo.pt",Foto="joao.jpg"},
-                new Utilizador {Id=6, Nome="Miguel Silva", Password="123_Asd",
+                new Utilizador {Id=6, Nome="Miguel Silva",
                     Email ="miguel@sapo.pt", NomeUtilizador="miguel@sapo.pt",Foto="miguel.jpg"},
-                new Utilizador {Id=7, Nome="Tânia", Password="123_Asd",
+                new Utilizador {Id=7, Nome="Tânia",
                     Email="tania@mail.pt", NomeUtilizador="tania@mail.pt", Foto="tania.jpg"}
             };
             utilizadores.ForEach(uu => context.Utilizador.AddOrUpdate(u => u.Nome, uu));

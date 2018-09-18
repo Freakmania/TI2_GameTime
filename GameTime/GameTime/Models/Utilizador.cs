@@ -16,8 +16,9 @@ namespace GameTime.Models
         }
         [Key]
         public int Id { get; set; }
+        [Required(ErrorMessage = "O {0} é de preenchimento obrigatório")]
+        //[Display(Name = "User Name")]
         public string NomeUtilizador { get; set; }
-        public string Password { get; set; }
         public string Email { get; set; }
         public string Nome { get; set; }
         public string Foto { get; set; }

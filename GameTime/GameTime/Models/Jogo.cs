@@ -16,9 +16,12 @@ namespace GameTime.Models
         }
         [Key]
         public int Id { get; set; }
+        [Required]
         public string Nome { get; set; }
+        [Required]
         public string Descricao { get; set; }
         public string Capa { get; set; }
+        [Required]
         public string Editora { get; set; }
         //public DateTime DataLancamento { get; set; }
 
