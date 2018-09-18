@@ -24,11 +24,11 @@ namespace GameTime.Controllers
         }
 
         // GET: Jogo/Details/5
-        public async Task<ActionResult> Details(int? id)
+        public async Task<ActionResult> Details(int id)
         {
-            if (id == null)
+            if (db.Jogo.Where(j=>j.Id==id).FirstOrDefault() == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("Index","Jogo");
             }
             Jogo jogo = await db.Jogo.FindAsync(id);
             if (jogo == null)
