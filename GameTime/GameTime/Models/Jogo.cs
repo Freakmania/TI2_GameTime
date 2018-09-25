@@ -16,12 +16,12 @@ namespace GameTime.Models
         }
         [Key]
         public int Id { get; set; }
-        [Required]
+        [Required(ErrorMessage = "O {0} é de preenchimento obrigatório")]
         public string Nome { get; set; }
-        [Required]
+        [Required(ErrorMessage = "O {0} é de preenchimento obrigatório")]
         public string Descricao { get; set; }
         public string Capa { get; set; }
-        [Required]
+        [Required(ErrorMessage = "O {0} é de preenchimento obrigatório")]
         public string Editora { get; set; }
         //public DateTime DataLancamento { get; set; }
 
