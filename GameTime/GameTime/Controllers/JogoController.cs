@@ -147,10 +147,14 @@ namespace GameTime.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            Jogo jogo = await db.Jogo.FindAsync(id);
-            db.Jogo.Remove(jogo);
-            await db.SaveChangesAsync();
-            return RedirectToAction("Index");
+            if (db.Lista.Where(a =>a.JogoFK == id).FirstOrDefault()==null)
+            {
+                Jogo jogo = await db.Jogo.FindAsync(id);
+                db.Jogo.Remove(jogo);
+                await db.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+            return RedirectToAction("Delete");
         }
 
         protected override void Dispose(bool disposing)
