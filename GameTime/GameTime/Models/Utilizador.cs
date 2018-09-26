@@ -19,13 +19,13 @@ namespace GameTime.Models
         public int Id { get; set; }
 
         // nickname q identifica o Utilizador nesta aplicação
-        [Required(ErrorMessage = "O {0} é de preenchimento obrigatório")]
+        [Required(ErrorMessage = "{0} is a required field")]
         public string NomeUtilizador { get; set; }
 
-        [Required(ErrorMessage = "O {0} é de preenchimento obrigatório!")]
+        [Required(ErrorMessage = "{0} is a required field")]
         public string Email { get; set; }
 
-        [Required(ErrorMessage = "O {0} é de preenchimento obrigatório!")]
+        [Required(ErrorMessage = "{0} is a required field")]
         public string Nome { get; set; }
 
         public string Foto { get; set; }
