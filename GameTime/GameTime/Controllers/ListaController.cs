@@ -48,12 +48,19 @@ namespace GameTime.Controllers
         }
 
         // GET: Lista/Create
-        public ActionResult Create()
+        public ActionResult Create(int id)
         {
+            
+            var model = new Lista
+            {
+                JogoFK = id,
+                Jogo = db.Jogo.Where(j=>j.Id==id).FirstOrDefault(),
+                UtilizadorFK = db.Utilizador.Where(u => u.UserName == User.Identity.Name).Select(u => u.Id).FirstOrDefault()
+            };
             ViewBag.EstadoJogadorFK = new SelectList(db.EstadoJogador, "Id", "Nome");
-            ViewBag.JogoFK = new SelectList(db.Jogo, "Id", "Nome");
-            ViewBag.UtilizadorFK = new SelectList(db.Utilizador, "Id", "NomeUtilizador");
-            return View();
+            //ViewBag.JogoFK = new SelectList(db.Jogo, "Id", "Nome");
+            //ViewBag.UtilizadorFK = new SelectList(db.Utilizador, "Id", "NomeUtilizador");
+            return View(model);
         }
 
         // POST: Lista/Create

@@ -10,6 +10,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using GameTime.Models;
 using System.Collections.Generic;
+using System.IO;
 
 namespace GameTime.Controllers
 {
@@ -19,6 +20,7 @@ namespace GameTime.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
         private ApplicationRoleManager _roleManager;
+        private ApplicationDbContext db = new ApplicationDbContext();
 
         public AccountController()
         {
@@ -154,11 +156,18 @@ namespace GameTime.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
+            var model = new UtilizadoresRegistados
+            {
+                RegisterViewModel = new RegisterViewModel(),
+                Utilizador = new Utilizador()
+            };
+            model.Utilizador.Email = "teste";
+            model.Utilizador.UserName = "teste";
             List<SelectListItem> list = new List<SelectListItem>();
             foreach (var role in RoleManager.Roles)
                 list.Add(new SelectListItem() { Value = role.Name, Text = role.Name });
             ViewBag.Roles = list;
-            return View();
+            return View(model);
         }
 
         //
@@ -166,14 +175,72 @@ namespace GameTime.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model)
+        public async Task<ActionResult> Register(UtilizadoresRegistados model, HttpPostedFileBase uploadImagem)
         {
+
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email};
-                var result = await UserManager.CreateAsync(user, model.Password);
+                int idNovoUtilizador = 0;
+                try
+                {
+                    idNovoUtilizador = db.Utilizador.Max(a => a.Id) + 1;
+                }
+                catch (Exception)
+                {
+                    idNovoUtilizador = 1;
+                }
+                model.Utilizador.Id = idNovoUtilizador;
+                string nomeImagem = "Jogo_" + idNovoUtilizador + ".jpg";
+                string path = "";
+
+                if (uploadImagem != null)
+                {
+                    path = Path.Combine(Server.MapPath("~/imagens/"), nomeImagem);
+                    //uploadImagem.SaveAs(HttpContext.Server.MapPath("~/Imagens/") + uploadImagem.FileName);
+                    //jogo.Capa = uploadImagem.FileName;
+                    model.Utilizador.Foto = nomeImagem;
+                    // escrever o ficheiro com a fotografia no disco rígido, na pasta 'imagens'
+                    uploadImagem.SaveAs(path);
+                }
+
+                
+                
+
+                var user = new ApplicationUser { UserName = model.RegisterViewModel.Email, Email = model.RegisterViewModel.Email};
+                var result = await UserManager.CreateAsync(user, model.RegisterViewModel.Password);
                 if (result.Succeeded)
                 {
+                    try
+                    {
+                        /// se houve sucesso com a criação de um utilizador
+                        /// tenho de guardar os dados do utilizador que se registou
+                        //Utilizador utilizador = new Utilizador();
+                        //utilizador = model.Utilizador;
+                        // associar estes dados com o utilizador q se registou
+                        //utilizador.UserName = user.UserName;
+                        // guardar os dados na base de dados
+                        //ApplicationDbContext db = new ApplicationDbContext();
+                        model.Utilizador.UserName = user.UserName;
+                        model.Utilizador.Email = user.Email;
+
+                        db.Utilizador.Add(model.Utilizador);
+                        db.SaveChanges();
+                    }
+                    catch (Exception ex)
+                    {
+                        /// eventualmente, apagar o utilizador que se acabou de registar
+                        /// eventualmente, registar numa tabela da BD o erro
+                        ///       - o nome do controller
+                        ///       - o nome do método
+                        ///       - a data
+                        ///       - a hora
+                        ///       - a mensagem de erro (ex.message)
+                        ///       - outros dados considerados relevantes
+                        /// eventualmente, enviar email ao Gestor do Sistema com o relato da ocorrência
+                        /// eventualmente, reenviar à view para reescrever os dados
+                    }
+
+
                     result = await UserManager.AddToRoleAsync(user.Id, "Utilizador");
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     
