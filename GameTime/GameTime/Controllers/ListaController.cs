@@ -63,12 +63,29 @@ namespace GameTime.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind(Include = "UtilizadorFK,JogoFK,EstadoJogadorFK")] Lista lista)
         {
+
+            // perguntar à BD qual o ID do jogador autenticado
+            // User.Identity.Name devolve o userName da pessoa autenticada
+
+            ViewBag.UtilizadorFK = User.Identity.GetUserId();
+
             if (ModelState.IsValid)
             {
-                db.Lista.Add(lista);
-                //ViewBag.UtilizadorFK = User.Identity.GetUserId();
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                //if (User.IsInRole("Admin"))
+                //{
+                    db.Lista.Add(lista);
+                    await db.SaveChangesAsync();
+                    return RedirectToAction("Index");
+                //}
+                //else
+                //{
+                //    db.Lista.Add(lista);
+                //    //ViewBag.UtilizadorFK = User.Identity.GetUserId();
+                //    //ViewBag.JogoFK=
+                //    await db.SaveChangesAsync();
+                //    return RedirectToAction("Index");
+                //}
+                
             }
 
             ViewBag.EstadoJogadorFK = new SelectList(db.EstadoJogador, "Id", "Nome", lista.EstadoJogadorFK);

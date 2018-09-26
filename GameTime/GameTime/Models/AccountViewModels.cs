@@ -82,6 +82,9 @@ namespace GameTime.Models
         public string ConfirmPassword { get; set; }
 
         public string RoleName { get; set; }
+
+        // Utilizador, para associar todos os seus atributos
+        public Utilizador Utilizador { get; set; }
     }
 
     public class ResetPasswordViewModel

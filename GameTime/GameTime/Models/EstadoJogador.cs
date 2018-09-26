@@ -12,6 +12,7 @@ namespace GameTime.Models
     {
         [Key]
         public int Id { get; set; }
+
         [Required(ErrorMessage = "O {0} é de preenchimento obrigatório")]
         public string Nome { get; set; }
     }
