@@ -55,12 +55,29 @@ namespace GameTime.Controllers
         {
             if (ModelState.IsValid)
             {
+                int idNovoJogo = 0;
+                jogo.Id = idNovoJogo;
+                string nomeImagem = "Jogo_" + idNovoJogo + ".jpg";
+                string path = "";
+
                 if (uploadImagem != null)
                 {
-                    uploadImagem.SaveAs(HttpContext.Server.MapPath("~/Imagens/") + uploadImagem.FileName);
-                    jogo.Capa = uploadImagem.FileName;
+                    path = Path.Combine(Server.MapPath("~/imagens/"), nomeImagem);
+                    //uploadImagem.SaveAs(HttpContext.Server.MapPath("~/Imagens/") + uploadImagem.FileName);
+                    //jogo.Capa = uploadImagem.FileName;
+                    jogo.Capa = nomeImagem;
+                }
+                else
+                {
+                    // não foi fornecido qq ficheiro
+                    // gerar uma mensagem de erro
+                    ModelState.AddModelError("", "Não foi fornecida uma imagem...");
+                    // devolver o controlo à View
+                    return View("Index");
                 }
                 db.Jogo.Add(jogo);
+                // escrever o ficheiro com a fotografia no disco rígido, na pasta 'imagens'
+                uploadImagem.SaveAs(path);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
