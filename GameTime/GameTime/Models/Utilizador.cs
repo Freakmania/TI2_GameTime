@@ -18,6 +18,7 @@ namespace GameTime.Models
         [Key]
         public int Id { get; set; }
 
+        [Display(Name ="Username")]
         // nickname q identifica o Utilizador nesta aplicação
         [Required(ErrorMessage = "{0} is a required field")]
         public string NomeUtilizador { get; set; }
@@ -25,9 +26,11 @@ namespace GameTime.Models
         [Required(ErrorMessage = "{0} is a required field")]
         public string Email { get; set; }
 
+        [Display(Name = "Name")]
         [Required(ErrorMessage = "{0} is a required field")]
         public string Nome { get; set; }
 
+        [Display(Name = "Photo")]
         public string Foto { get; set; }
 
         // atributo para ligar a tabela da autenticação com esta tabela

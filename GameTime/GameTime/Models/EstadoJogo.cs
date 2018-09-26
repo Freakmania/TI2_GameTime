@@ -12,6 +12,9 @@ namespace GameTime.Models
     {
         [Key]
         public int Id { get; set; }
+
+        //nome do estado em que o jogo se encontra, já publicado, por publicar, etc..
+        [Display(Name = "Name")]
         [Required(ErrorMessage = "{0} is a required field")]
         public string Nome { get; set; }
     }

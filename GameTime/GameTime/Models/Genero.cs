@@ -12,6 +12,8 @@ namespace GameTime.Models
     {
         [Key]
         public int Id { get; set; }
+
+        [Display(Name = "Name")]
         [Required(ErrorMessage = "{0} is a required field")]
         public string Nome { get; set; }
     }

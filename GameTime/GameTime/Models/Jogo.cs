@@ -18,14 +18,18 @@ namespace GameTime.Models
         [Key]
         public int Id { get; set; }
 
+        [Display(Name = "Name")]
         [Required(ErrorMessage = "{0} is a required field")]
         public string Nome { get; set; }
 
+        [Display(Name = "Description")]
         [Required(ErrorMessage = "{0} is a required field")]
         public string Descricao { get; set; }
 
+        [Display(Name = "Cover")]
         public string Capa { get; set; }
 
+        [Display(Name = "Publisher")]
         [Required(ErrorMessage = "{0} is a required field")]
         public string Editora { get; set; }
         //public DateTime DataLancamento { get; set; }

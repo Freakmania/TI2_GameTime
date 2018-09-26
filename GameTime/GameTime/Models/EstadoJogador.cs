@@ -13,6 +13,8 @@ namespace GameTime.Models
         [Key]
         public int Id { get; set; }
 
+        //nome do estado em que o jogador se encontra, a jogar, por jogar, já jogado, etc..
+        [Display(Name = "Name")]
         [Required(ErrorMessage = "{0} is a required field")]
         public string Nome { get; set; }
     }
